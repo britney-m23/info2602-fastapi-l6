@@ -14,13 +14,8 @@
 
   <title>{% block title %}{% endblock %}</title>
   <style>
-    {
-      % block styles %
-    }
-
-      {
-      % endblock %
-    }
+    {% block styles %}
+    {% endblock %}
 
     #alert {
       width: 80vw;

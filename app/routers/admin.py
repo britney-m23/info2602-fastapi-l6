@@ -10,19 +10,24 @@ from fastapi import status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from app.utilities import flash
 from . import templates
-
+from app.pagination import Pagination
 
 admin_router = APIRouter(tags=["Admin App"])
 
 @admin_router.get("/admin")
-def admin_page(request:Request, db:SessionDep, user:AdminDep):
-    todos = db.exec(select(Todo)).all()
-    
+def admin_page(request:Request, db:SessionDep, user:AdminDep, page: int = Query(default=1, ge=1), limit: int = Query(default=100, le=100)):
+    offset = (page - 1) * limit
+
+    count_todos = db.exec(select(func.count(Todo.id))).one()
+    todos = db.exec(select(Todo).offset(offset).limit(limit)).all()
+    pagination = Pagination(total_count=count_todos, current_page=page, limit=limit)
+
     return templates.TemplateResponse(
         request=request, 
         name="admin.html",
         context={
             "current_user": user,
-            "todos": todos
+            "todos": todos,
+            "pagination": pagination,
         }
     )
