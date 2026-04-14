@@ -4,7 +4,7 @@
 
 {% block link%}
 <ul id="nav-mobile" class="right">
-  <li><a href="/todo-stats">Stats</a></li>
+  <li><a href="/stats">Stats</a></li>
   <li><a href="/logout">Logout</a></li>
 </ul>
 {% endblock %}
@@ -38,7 +38,7 @@
   <form method="GET" action="/admin">
     <div class="row">
       <div class="col m6 input-field">
-        <input class="blue-text" name="q" type="search" placeholder="Search" value="{{ q }}">
+        <input class="blue-text" id="q" name="q" type="search" placeholder="Search" value="{{ q }}">
       </div>
       <div class="col m3 input-field">
           <div class="row">
@@ -61,7 +61,11 @@
           <button type="submit" class="btn blue">
             <i class="material-icons">search</i>
           </button>
-          <button type="button" onclick="q.value=''; done.value='any'; this.form.submit()" class="btn blue">
+          <button
+            type="button"
+            onclick="this.form.q.value=''; this.form.querySelector('input[name=done][value=any]').checked=true; this.form.submit()"
+            class="btn blue"
+          >
             <i class="material-icons">close</i>
           </button>
         </div>

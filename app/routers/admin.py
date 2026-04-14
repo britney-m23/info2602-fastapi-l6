@@ -22,7 +22,7 @@ def admin_page(
     page: int = Query(default=1, ge=1),
     limit: int = Query(default=100, le=100),
     q: str = Query(default=""),
-    done: str = Query(default="any", regex="^(?:true|false|any)$"),
+    done: str = Query(default="any", pattern="^(?:true|false|any)$"),
 ):
     offset = (page - 1) * limit
 
